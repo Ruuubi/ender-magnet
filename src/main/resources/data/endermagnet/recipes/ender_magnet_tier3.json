@@ -1,0 +1,19 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		" X ",
+		"XWX",
+		" X "
+	],
+	"key": {
+		"X": {
+			"item": "minecraft:diamond"
+		},
+		"W": {
+			"item": "endermagnet:ender_magnet_tier2"
+		}
+	},
+	"result": {
+		"item": "endermagnet:ender_magnet_tier3"
+	}
+}

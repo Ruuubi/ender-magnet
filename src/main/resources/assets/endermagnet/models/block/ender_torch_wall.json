@@ -1,0 +1,6 @@
+{
+    "parent": "block/torch_wall",
+    "textures": {
+        "torch": "endermagnet:block/ender_torch"
+    }
+}

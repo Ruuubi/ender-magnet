@@ -1,0 +1,19 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		" X ",
+		"XWX",
+		" X "
+	],
+	"key": {
+		"X": {
+			"item": "minecraft:gold_ingot"
+		},
+		"W": {
+			"item": "endermagnet:ender_magnet_tier1"
+		}
+	},
+	"result": {
+		"item": "endermagnet:ender_magnet_tier2"
+	}
+}

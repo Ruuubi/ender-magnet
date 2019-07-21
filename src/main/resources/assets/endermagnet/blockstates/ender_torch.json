@@ -1,0 +1,5 @@
+{
+    "variants": {
+        "": { "model": "endermagnet:block/ender_torch" }
+    }
+}
