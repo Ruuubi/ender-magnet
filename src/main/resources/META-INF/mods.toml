@@ -1,10 +1,10 @@
 modLoader="javafml"
-loaderVersion="[27,)"
+loaderVersion="[28,)"
 # issueTrackerURL=""
 
 [[mods]] #mandatory
 modId="endermagnet"
-version="1.14.3-1.0.0"
+version="1.14.4-2.0.0"
 displayName="Ender Magnet"
 # updateJSONURL=""
 displayURL="https://www.curseforge.com/minecraft/mc-mods/ender-magnet"
@@ -16,6 +16,6 @@ description='''Adds magnets that pull nearby items to the player'''
 [[dependencies.endermagnet]]
     modId="forge"
     mandatory=true
-    versionRange="[27.0.51,)"
+    versionRange="[28.0.45,)"
     ordering="NONE"
 	side="BOTH"

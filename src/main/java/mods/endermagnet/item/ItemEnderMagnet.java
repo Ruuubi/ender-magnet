@@ -7,6 +7,7 @@ import javax.annotation.Nullable;
 
 import mods.endermagnet.EnderMagnet;
 import mods.endermagnet.tile.TileEntityEnderTorch;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.ItemEntity;
@@ -53,18 +54,19 @@ public class ItemEnderMagnet extends Item {
 		return false;
 	}
 
+	@Override
 	@OnlyIn(Dist.CLIENT)
 	public boolean hasEffect(ItemStack stack) {
-		return getDisabled(stack);
+		return Minecraft.getInstance().player.isSneaking() || getPermDisabled(stack);
 	}
 
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
 		ItemStack stack = player.getHeldItem(hand);
 		if (!world.isRemote) {
-			boolean disabled = !getDisabled(stack);
+			boolean disabled = !getPermDisabled(stack);
 			String text = (disabled) ? TextFormatting.RED.toString() + "Disabled" : TextFormatting.GREEN.toString() + "Enabled";
-			setDisabled(stack, disabled);
+			setPermDisabled(stack, disabled);
 			player.sendMessage(new StringTextComponent(TextFormatting.GRAY.toString() + "Ender Magnet: " + text));
 		} else {
 			world.playSound(player, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.PLAYERS, 0.75F, 1.0F);
@@ -80,7 +82,7 @@ public class ItemEnderMagnet extends Item {
 		if (!TileEntityEnderTorch.inRangeOfEntity(player)) {
 			int delay = getPickupDelay(stack);
 			if (delay == 0) {
-				if (!player.isSneaking() && !getDisabled(stack)) {
+				if (!player.isSneaking() && !getPermDisabled(stack)) {
 					double x = player.posX;
 					double y = player.posY + 0.25;
 					double z = player.posZ;
@@ -115,7 +117,7 @@ public class ItemEnderMagnet extends Item {
 		for (String entry : text) tooltip.add(new StringTextComponent(entry));
 	}
 
-	public static boolean getDisabled(ItemStack magnet) {
+	public static boolean getPermDisabled(ItemStack magnet) {
 		if (magnet.getItem() instanceof ItemEnderMagnet) {
 			CompoundNBT nbt = magnet.getOrCreateTag();
 			return nbt.getBoolean(NBTTAG_PERM);
@@ -123,7 +125,7 @@ public class ItemEnderMagnet extends Item {
 		return false;
 	}
 
-	public static void setDisabled(ItemStack magnet, boolean disabled) {
+	public static void setPermDisabled(ItemStack magnet, boolean disabled) {
 		if (magnet.getItem() instanceof ItemEnderMagnet) {
 			CompoundNBT nbt = magnet.getOrCreateTag();
 			nbt.putBoolean(NBTTAG_PERM, disabled);
