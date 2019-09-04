@@ -3,5 +3,7 @@
 	"item.endermagnet.ender_magnet_tier1": "Ender Magnet (Tier 1)",
 	"item.endermagnet.ender_magnet_tier2": "Ender Magnet (Tier 2)",
 	"item.endermagnet.ender_magnet_tier3": "Ender Magnet (Tier 3)",
-	"block.endermagnet.ender_torch": "Ender Torch"
+	"block.endermagnet.ender_torch": "Ender Torch",
+	"key.endermagnet.toggleMagnet": "Toggle Magnet",
+	"key.categories.endermagnet": "Ender Magnet"
 }

@@ -6,6 +6,9 @@ import org.apache.logging.log4j.Logger;
 import mods.endermagnet.block.BlockEnderTorch;
 import mods.endermagnet.item.ItemEnderMagnet;
 import mods.endermagnet.item.ItemEnderTorch;
+import mods.endermagnet.proxy.ClientProxy;
+import mods.endermagnet.proxy.IProxy;
+import mods.endermagnet.proxy.ServerProxy;
 import mods.endermagnet.tile.TileEntityEnderTorch;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -15,7 +18,11 @@ import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.IForgeRegistry;
 
 @Mod("endermagnet")
@@ -25,7 +32,8 @@ public class EnderMagnet {
 	public static final String MODNAME_NOSPACE = "EnderMagnet";
 	public static final String VERSION = "1.14.4-2.0.0";
 	public static final Logger LOGGER = LogManager.getLogger();
-
+	
+	public static IProxy PROXY = DistExecutor.runForDist(() -> () -> new ClientProxy(), () -> () -> new ServerProxy());
 	public static ItemEnderMagnet icon;
 	public static BlockEnderTorch.Floor block_ender_torch_floor;
 	public static BlockEnderTorch.Wall block_ender_torch_wall;
@@ -39,9 +47,15 @@ public class EnderMagnet {
 	};
 
 	public EnderMagnet() {
+		ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, Config.CONFIG_SPEC);
+		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::modConfig);
 		MinecraftForge.EVENT_BUS.register(new ItemEnderMagnet.TossEvent());
 	}
 
+	public void modConfig(ModConfig.ModConfigEvent event) {
+		if (event.getConfig().getSpec() == Config.CONFIG_SPEC) Config.refreshConfigValues();
+	}
+	
 	@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 	public static class Registration {
 		@SubscribeEvent

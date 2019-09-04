@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+import mods.endermagnet.Config;
 import mods.endermagnet.EnderMagnet;
 import mods.endermagnet.tile.TileEntityEnderTorch;
 import net.minecraft.client.Minecraft;
@@ -94,7 +95,7 @@ public class ItemEnderMagnet extends Item {
 							Vec3d vecItem = new Vec3d(entityItem.posX, entityItem.posY + entityItem.getHeight() / 2, entityItem.posZ);
 							Vec3d vecNewPos = vecPlayer.subtract(vecItem);
 							if (Math.sqrt(vecNewPos.x * vecNewPos.x + vecNewPos.y * vecNewPos.y + vecNewPos.z * vecNewPos.z) > 1) vecNewPos = vecNewPos.normalize();
-							if (player.world.isRemote) {
+							if (player.world.isRemote && Config.CLIENT_ENABLE_PARTICLES) {
 								player.world.addParticle(ParticleTypes.DRAGON_BREATH, entityItem.posX, entityItem.posY + entityItem.getHeight(), entityItem.posZ, vecNewPos.x * 0.05, vecNewPos.y * 0.01, vecNewPos.z * 0.05);
 							}
 							entityItem.setMotion(vecNewPos.scale(this.SPEED));
