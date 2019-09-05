@@ -65,10 +65,7 @@ public class ItemEnderMagnet extends Item {
 	public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
 		ItemStack stack = player.getHeldItem(hand);
 		if (!world.isRemote) {
-			boolean disabled = !getPermDisabled(stack);
-			String text = (disabled) ? TextFormatting.RED.toString() + "Disabled" : TextFormatting.GREEN.toString() + "Enabled";
-			setPermDisabled(stack, disabled);
-			player.sendMessage(new StringTextComponent(TextFormatting.GRAY.toString() + "Ender Magnet: " + text));
+			toggle(player, stack);
 		} else {
 			world.playSound(player, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.PLAYERS, 0.75F, 1.0F);
 		}
@@ -118,6 +115,13 @@ public class ItemEnderMagnet extends Item {
 		for (String entry : text) tooltip.add(new StringTextComponent(entry));
 	}
 
+	public static void toggle(PlayerEntity player, ItemStack stack) {
+		boolean disabled = !getPermDisabled(stack);
+		String text = (disabled) ? TextFormatting.RED.toString() + "Disabled" : TextFormatting.GREEN.toString() + "Enabled";
+		setPermDisabled(stack, disabled);
+		player.sendMessage(new StringTextComponent(TextFormatting.GRAY.toString() + "Ender Magnet: " + text));
+	}
+	
 	public static boolean getPermDisabled(ItemStack magnet) {
 		if (magnet.getItem() instanceof ItemEnderMagnet) {
 			CompoundNBT nbt = magnet.getOrCreateTag();

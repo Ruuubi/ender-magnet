@@ -4,8 +4,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import mods.endermagnet.block.BlockEnderTorch;
+import mods.endermagnet.event.EventKeyInput;
 import mods.endermagnet.item.ItemEnderMagnet;
 import mods.endermagnet.item.ItemEnderTorch;
+import mods.endermagnet.network.PacketHandler;
 import mods.endermagnet.proxy.ClientProxy;
 import mods.endermagnet.proxy.IProxy;
 import mods.endermagnet.proxy.ServerProxy;
@@ -48,8 +50,10 @@ public class EnderMagnet {
 
 	public EnderMagnet() {
 		ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, Config.CONFIG_SPEC);
+		PacketHandler.register();
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::modConfig);
 		MinecraftForge.EVENT_BUS.register(new ItemEnderMagnet.TossEvent());
+		MinecraftForge.EVENT_BUS.register(new EventKeyInput());
 	}
 
 	public void modConfig(ModConfig.ModConfigEvent event) {
