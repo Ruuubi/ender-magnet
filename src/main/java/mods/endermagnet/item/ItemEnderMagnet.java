@@ -8,7 +8,6 @@ import javax.annotation.Nullable;
 import mods.endermagnet.Config;
 import mods.endermagnet.EnderMagnet;
 import mods.endermagnet.tile.TileEntityEnderTorch;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.ItemEntity;
@@ -58,7 +57,7 @@ public class ItemEnderMagnet extends Item {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public boolean hasEffect(ItemStack stack) {
-		return Minecraft.getInstance().player.isSneaking() || getPermDisabled(stack);
+		return getPermDisabled(stack);
 	}
 
 	@Override
@@ -119,7 +118,8 @@ public class ItemEnderMagnet extends Item {
 		boolean disabled = !getPermDisabled(stack);
 		String text = (disabled) ? TextFormatting.RED.toString() + "Disabled" : TextFormatting.GREEN.toString() + "Enabled";
 		setPermDisabled(stack, disabled);
-		player.sendMessage(new StringTextComponent(TextFormatting.GRAY.toString() + "Ender Magnet: " + text));
+//		player.sendMessage(new StringTextComponent(TextFormatting.GRAY.toString() + "Ender Magnet: " + text));
+		player.sendStatusMessage(new StringTextComponent(TextFormatting.GRAY.toString() + "Ender Magnet: " + text), true);
 	}
 	
 	public static boolean getPermDisabled(ItemStack magnet) {

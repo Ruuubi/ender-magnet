@@ -21,6 +21,7 @@ public class PacketHandler {
 	public static void register() {
 		int index = 0;
 		INSTANCE.registerMessage(index++, PacketToggleMagnet.class, PacketToggleMagnet::writePacket, PacketToggleMagnet::readPacket, PacketToggleMagnet.Handler::handlePacket);
+		INSTANCE.registerMessage(index++, PacketPlaySound.class, PacketPlaySound::writePacket, PacketPlaySound::readPacket, PacketPlaySound.Handler::handlePacket);
 	}
 
 	/** @see net.minecraftforge.fml.network.PacketDistributor */

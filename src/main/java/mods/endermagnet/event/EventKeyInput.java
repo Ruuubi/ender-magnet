@@ -10,7 +10,7 @@ public class EventKeyInput {
 	
 	@SubscribeEvent
 	public void onKeyInput(KeyInputEvent event) {
-		if (ClientProxy.toggleMagnet.isPressed()) {
+		if (ClientProxy.toggleMagnet.isPressed() && event.getAction() == 1) {
 			PacketHandler.sendToServer(new PacketToggleMagnet());
 		}
 	}

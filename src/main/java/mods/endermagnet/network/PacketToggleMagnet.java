@@ -27,6 +27,7 @@ public class PacketToggleMagnet {
 						ItemStack stack = player.inventory.getStackInSlot(slot);
 						if (!stack.isEmpty() && stack.getItem() instanceof ItemEnderMagnet) {
 							ItemEnderMagnet.toggle(player, stack);
+							PacketHandler.sendToClient(new PacketPlaySound(), player);
 							break;
 						}
 					}
