@@ -3,7 +3,11 @@ package mods.endermagnet.proxy;
 import org.lwjgl.glfw.GLFW;
 
 import mods.endermagnet.EnderMagnet;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 
 public class ClientProxy implements IProxy {
@@ -12,6 +16,12 @@ public class ClientProxy implements IProxy {
 
 	static {
 		ClientRegistry.registerKeyBinding(toggleMagnet);
+	}
+
+	@Override
+	public void playSound() {
+		PlayerEntity player = Minecraft.getInstance().player;
+		if (player != null) player.world.playSound(player, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.PLAYERS, 0.75F, 1.0F);
 	}
 	
 }

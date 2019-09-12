@@ -20,8 +20,6 @@ import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.ITextComponent;
@@ -63,11 +61,8 @@ public class ItemEnderMagnet extends Item {
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
 		ItemStack stack = player.getHeldItem(hand);
-		if (!world.isRemote) {
-			toggle(player, stack);
-		} else {
-			world.playSound(player, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.PLAYERS, 0.75F, 1.0F);
-		}
+		if (!world.isRemote) toggle(player, stack);
+		EnderMagnet.PROXY.playSound();
 		return new ActionResult<>(ActionResultType.SUCCESS, stack);
 	}
 
@@ -118,7 +113,6 @@ public class ItemEnderMagnet extends Item {
 		boolean disabled = !getPermDisabled(stack);
 		String text = (disabled) ? TextFormatting.RED.toString() + "Disabled" : TextFormatting.GREEN.toString() + "Enabled";
 		setPermDisabled(stack, disabled);
-//		player.sendMessage(new StringTextComponent(TextFormatting.GRAY.toString() + "Ender Magnet: " + text));
 		player.sendStatusMessage(new StringTextComponent(TextFormatting.GRAY.toString() + "Ender Magnet: " + text), true);
 	}
 	

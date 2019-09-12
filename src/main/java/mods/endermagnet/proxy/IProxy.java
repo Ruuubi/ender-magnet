@@ -1,3 +1,6 @@
 package mods.endermagnet.proxy;
 
-public interface IProxy {}
+public interface IProxy {
+	
+	void playSound();
+}
