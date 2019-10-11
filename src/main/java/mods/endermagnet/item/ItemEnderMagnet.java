@@ -37,6 +37,7 @@ public class ItemEnderMagnet extends Item {
 	private final float SPEED;
 	private static final int DELAY_TOSS = 60;
 	private static final int DELAY_ENDER_TORCH = 10;
+	private static final int MAX_PULL_COUNT = 100;
 	private static final String NBTTAG_TEMP = EnderMagnet.MODID + "TempDisabled"; // ItemToss or Ender Torch in range
 	private static final String NBTTAG_PERM = EnderMagnet.MODID + "PermDisabled"; // Rightclicked
 
@@ -80,9 +81,11 @@ public class ItemEnderMagnet extends Item {
 					double z = player.posZ;
 					Vec3d vecPlayer = new Vec3d(x, y, z);
 					List<ItemEntity> items = player.world.getEntitiesWithinAABB(ItemEntity.class, new AxisAlignedBB(x - this.RANGE, y - this.RANGE, z - this.RANGE, x + this.RANGE, y + this.RANGE, z + this.RANGE));
+					int itemcount = 0;
 					for (ItemEntity entityItem : items) {
 						// NBT Tag "PreventRemoteMovement" to support "Demagnetize" mod
 						if (!TileEntityEnderTorch.inRangeOfEntity(entityItem) && !entityItem.getPersistentData().getBoolean("PreventRemoteMovement")) {
+							itemcount += 1;
 							Vec3d vecItem = new Vec3d(entityItem.posX, entityItem.posY + entityItem.getHeight() / 2, entityItem.posZ);
 							Vec3d vecNewPos = vecPlayer.subtract(vecItem);
 							if (Math.sqrt(vecNewPos.x * vecNewPos.x + vecNewPos.y * vecNewPos.y + vecNewPos.z * vecNewPos.z) > 1) vecNewPos = vecNewPos.normalize();
@@ -90,6 +93,7 @@ public class ItemEnderMagnet extends Item {
 								player.world.addParticle(ParticleTypes.DRAGON_BREATH, entityItem.posX, entityItem.posY + entityItem.getHeight(), entityItem.posZ, vecNewPos.x * 0.05, vecNewPos.y * 0.01, vecNewPos.z * 0.05);
 							}
 							entityItem.setMotion(vecNewPos.scale(this.SPEED));
+							if (itemcount >= MAX_PULL_COUNT) break;
 						}
 					}
 				}
