@@ -68,6 +68,7 @@ public class ItemEnderMagnet extends Item {
 	}
 
 	@Override
+	// Magnet logic was taken from Botania (A mod by Vazkii)
 	public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean isSelected) {
 		if (entity instanceof PlayerEntity == false) return;
 		PlayerEntity player = (PlayerEntity) entity;
