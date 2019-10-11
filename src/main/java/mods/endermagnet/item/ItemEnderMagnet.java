@@ -82,7 +82,7 @@ public class ItemEnderMagnet extends Item {
 					List<ItemEntity> items = player.world.getEntitiesWithinAABB(ItemEntity.class, new AxisAlignedBB(x - this.RANGE, y - this.RANGE, z - this.RANGE, x + this.RANGE, y + this.RANGE, z + this.RANGE));
 					for (ItemEntity entityItem : items) {
 						// NBT Tag "PreventRemoteMovement" to support "Demagnetize" mod
-						if (!TileEntityEnderTorch.inRangeOfEntity(entityItem) && !entityItem.getEntityData().getBoolean("PreventRemoteMovement")) {
+						if (!TileEntityEnderTorch.inRangeOfEntity(entityItem) && !entityItem.getPersistentData().getBoolean("PreventRemoteMovement")) {
 							Vec3d vecItem = new Vec3d(entityItem.posX, entityItem.posY + entityItem.getHeight() / 2, entityItem.posZ);
 							Vec3d vecNewPos = vecPlayer.subtract(vecItem);
 							if (Math.sqrt(vecNewPos.x * vecNewPos.x + vecNewPos.y * vecNewPos.y + vecNewPos.z * vecNewPos.z) > 1) vecNewPos = vecNewPos.normalize();
