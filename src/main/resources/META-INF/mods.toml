@@ -16,6 +16,6 @@ description='''Adds magnets that pull nearby items to the player'''
 [[dependencies.endermagnet]]
     modId="forge"
     mandatory=true
-    versionRange="[28.0.45,)"
+    versionRange="[28.1.61,)"
     ordering="NONE"
 	side="BOTH"
