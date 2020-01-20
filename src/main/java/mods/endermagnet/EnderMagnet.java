@@ -13,6 +13,8 @@ import mods.endermagnet.proxy.IProxy;
 import mods.endermagnet.proxy.ServerProxy;
 import mods.endermagnet.tile.TileEntityEnderTorch;
 import net.minecraft.block.Block;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -24,6 +26,7 @@ import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.IForgeRegistry;
 
@@ -51,10 +54,16 @@ public class EnderMagnet {
 		ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, Config.CONFIG_SPEC);
 		PacketHandler.register();
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::modConfig);
+		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientSetup);
 		MinecraftForge.EVENT_BUS.register(new ItemEnderMagnet.TossEvent());
 		MinecraftForge.EVENT_BUS.register(new EventKeyInput());
 	}
 
+	private void clientSetup(FMLClientSetupEvent e) {
+		RenderTypeLookup.setRenderLayer(block_ender_torch_floor, RenderType.func_228643_e_()); // Cutout - field_228617_T_
+		RenderTypeLookup.setRenderLayer(block_ender_torch_wall, RenderType.func_228643_e_()); // Cutout - field_228617_T_
+	}
+	
 	public void modConfig(ModConfig.ModConfigEvent event) {
 		if (event.getConfig().getSpec() == Config.CONFIG_SPEC) Config.refreshConfigValues();
 	}
