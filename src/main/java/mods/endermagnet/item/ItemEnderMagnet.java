@@ -76,10 +76,10 @@ public class ItemEnderMagnet extends Item {
 		if (!TileEntityEnderTorch.inRangeOfEntity(player)) {
 			int delay = getPickupDelay(stack);
 			if (delay == 0) {
-				if (!player.isSneaking() && !getPermDisabled(stack)) {
-					double x = player.posX;
-					double y = player.posY + 0.25;
-					double z = player.posZ;
+				if (!player.isCrouching() && !getPermDisabled(stack)) {
+					double x = player.getPosition().getX();
+					double y = player.getPosition().getY() + 0.25;
+					double z = player.getPosition().getZ();
 					Vec3d vecPlayer = new Vec3d(x, y, z);
 					List<ItemEntity> items = player.world.getEntitiesWithinAABB(ItemEntity.class, new AxisAlignedBB(x - this.RANGE, y - this.RANGE, z - this.RANGE, x + this.RANGE, y + this.RANGE, z + this.RANGE));
 					int itemcount = 0;
@@ -87,11 +87,11 @@ public class ItemEnderMagnet extends Item {
 						// NBT Tag "PreventRemoteMovement" to support "Demagnetize" mod
 						if (!TileEntityEnderTorch.inRangeOfEntity(entityItem) && !entityItem.getPersistentData().getBoolean("PreventRemoteMovement")) {
 							itemcount += 1;
-							Vec3d vecItem = new Vec3d(entityItem.posX, entityItem.posY + entityItem.getHeight() / 2, entityItem.posZ);
+							Vec3d vecItem = new Vec3d(entityItem.getPosition().getX(), entityItem.getPosition().getY() + entityItem.getHeight() / 2, entityItem.getPosition().getZ());
 							Vec3d vecNewPos = vecPlayer.subtract(vecItem);
 							if (Math.sqrt(vecNewPos.x * vecNewPos.x + vecNewPos.y * vecNewPos.y + vecNewPos.z * vecNewPos.z) > 1) vecNewPos = vecNewPos.normalize();
 							if (player.world.isRemote && Config.CLIENT_ENABLE_PARTICLES) {
-								player.world.addParticle(ParticleTypes.DRAGON_BREATH, entityItem.posX, entityItem.posY + entityItem.getHeight(), entityItem.posZ, vecNewPos.x * 0.05, vecNewPos.y * 0.01, vecNewPos.z * 0.05);
+								player.world.addParticle(ParticleTypes.DRAGON_BREATH, entityItem.getPosition().getX(), entityItem.getPosition().getY() + entityItem.getHeight(), entityItem.getPosition().getZ(), vecNewPos.x * 0.05, vecNewPos.y * 0.01, vecNewPos.z * 0.05);
 							}
 							entityItem.setMotion(vecNewPos.scale(this.SPEED));
 							if (itemcount >= MAX_PULL_COUNT) break;

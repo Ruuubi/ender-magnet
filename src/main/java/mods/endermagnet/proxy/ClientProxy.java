@@ -21,7 +21,7 @@ public class ClientProxy implements IProxy {
 	@Override
 	public void playSound() {
 		PlayerEntity player = Minecraft.getInstance().player;
-		if (player != null) player.world.playSound(player, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.PLAYERS, 0.75F, 1.0F);
+		if (player != null) player.world.playSound(player, player.getPosition().getX(), player.getPosition().getY(), player.getPosition().getZ(), SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.PLAYERS, 0.75F, 1.0F);
 	}
 	
 }

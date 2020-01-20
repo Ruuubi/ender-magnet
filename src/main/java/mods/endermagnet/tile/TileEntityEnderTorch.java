@@ -45,7 +45,7 @@ public class TileEntityEnderTorch extends TileEntity implements ITickableTileEnt
 				if (tile.world != entity.world) continue;
 				if (!tile.world.isAreaLoaded(tile.pos, 1)) continue;
 				if (tile.world.getTileEntity(tile.pos) != tile) continue;
-				if (tile.getDistanceSq(entity.posX, entity.posY, entity.posZ) <= RANGE_SQ) return true;
+				if (tile.getDistanceSq(entity.getPosition().getX(), entity.getPosition().getY(), entity.getPosition().getZ()) <= RANGE_SQ) return true;
 			}
 		}
 		return false;
